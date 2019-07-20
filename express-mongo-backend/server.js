@@ -1,5 +1,5 @@
 // on the server side, we have no build process so we cannot use the ES6 import
-// but use "require" in order to use functionality that is not defined in this file
+// instead we use "require" in order to use functionality that is not defined in this file
 
 const express = require('express');
 const app = express();
