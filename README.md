@@ -12,22 +12,20 @@ R:Read the data from the database and show it in the browser
 U:Update (change) the data and store it again in the database
 D:Delete some data from the database
 
-to run the application first you need to start the mongo db database
+To run the application first you need to start the mongo db database:
 - open a terminal and run: mongod
 
-to run the express webserver with the rest api to connect the browser client to the database start express
+To run the express webserver with the rest api to connect the browser client to the database start express:
 - open a new terminal and go into the directory /mern-asset-management/express-mongo-backend
 - within this directory run: nodemon server
 
-to run the webserver to server the react client
+To run the webserver for the react client:
 - open a new terminal and go into the directory /mern-asset-management/react-frontend
 - within this directroy run: npm start
 
-now a browser window should open automatically and show the application in the browser
-if it doesn't work automatically then open a browser and enter the URL: localhost:3000
+Now a browser window should open automatically and show the application in the browser.
+If it doesn't work automatically then open a browser and enter the URL: localhost:3000
 
-you should see the title of the application:
-"simple asset management application"
-and one example asset should already be created, shown and stored in the database
+You should see the frontpage with the title of the application and one example asset should already be created, shown and stored in the database.
 
-now 
+To understand how the application works, open the file /react-frontend/public/index.html and read through the comments and the code.
