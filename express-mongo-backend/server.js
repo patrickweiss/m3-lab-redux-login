@@ -14,13 +14,13 @@ app.use(bodyParser.json());
 mongoose.connect('mongodb://127.0.0.1:27017/assets', { useNewUrlParser: true });
 const connection = mongoose.connection;
 
-connection.once('open', function() {
+connection.once('open', function () {
     console.log("MongoDB database connection established successfully");
 })
 
-assetRoutes.route('/').get(function(req, res) {
+assetRoutes.route('/').get(function (req, res) {
     console.log("got a request");
-    Asset.find(function(err, assets) {
+    Asset.find(function (err, assets) {
         if (err) {
             console.log(err);
         } else {
@@ -29,46 +29,46 @@ assetRoutes.route('/').get(function(req, res) {
     });
 });
 
-assetRoutes.route('/:id').get(function(req, res) {
+assetRoutes.route('/:id').get(function (req, res) {
     let id = req.params.id;
-    Asset.findById(id, function(err, asset) {
+    Asset.findById(id, function (err, asset) {
         res.json(asset);
     });
 });
 
-assetRoutes.route('/update/:id').post(function(req, res) {
-    Asset.findById(req.params.id, function(err, asset) {
-        if (!asset)
-            res.status(404).send("data is not found");
-        else
+assetRoutes.route('/update/:id').post(function (req, res) {
+    Asset.findById(req.params.id, function (err, asset) {
+        if (!asset) res.status(404).send("Asset to update not found, asset _id:" + req.params.id);
+        else {
             asset.asset_id = req.body.asset_id;
             asset.asset_name = req.body.asset_name;
             asset.asset_value = req.body.asset_value;
-    
+
             asset.save().then(asset => {
                 res.json('asset updated!');
             })
-            .catch(err => {
-                res.status(400).send("Update not possible");
-            });
+                .catch(err => {
+                    res.status(400).send("Update not possible");
+                });
+        }
     });
 });
 
-assetRoutes.route('/delete/:id').get(function(req, res) {
-    Asset.deleteOne({ "_id" : req.params.id}, function(err, asset) {
+assetRoutes.route('/delete/:id').get(function (req, res) {
+    Asset.deleteOne({ "_id": req.params.id }, function (err, asset) {
         if (!asset)
             res.status(404).send("data is not found");
         else
-            res.json('asset deleted!');      
+            res.json('asset deleted!');
     });
 });
 
-assetRoutes.route('/add').post(function(req, res) {
-    console.log("Reqest to save this asset:"+JSON.stringify(req.body));
+assetRoutes.route('/add').post(function (req, res) {
+    console.log("Reqest to save this asset:" + JSON.stringify(req.body));
     let asset = new Asset(req.body);
     asset.save()
         .then(asset => {
-            res.status(200).json({'asset': 'asset added successfully'});
+            res.status(200).json({ 'asset': 'asset added successfully' });
         })
         .catch(err => {
             res.status(400).send('adding new asset failed');
@@ -77,6 +77,6 @@ assetRoutes.route('/add').post(function(req, res) {
 
 app.use('/assets', assetRoutes);
 
-app.listen(PORT, function() {
+app.listen(PORT, function () {
     console.log("Server should be running on Port: " + PORT);
 });
