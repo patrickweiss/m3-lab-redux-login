@@ -11,11 +11,9 @@ export default class SimpleAsset extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
 
         this.state = {
-            asset_delete_function: props.onDelete,
-            asset_edit_mode: props.edit,
-            asset_id: props.id,
-            asset_name: props.name,
-            asset_value: props.value
+            delete_function: props.onDelete,
+            edit_mode: props.edit,
+            asset: props.asset,
         }
     }
 
@@ -24,10 +22,10 @@ export default class SimpleAsset extends Component {
             return (
                 <form onSubmit={this.handleSubmit} >
                     <label>
-                        Name:<input type="text" name="name" value={this.state.asset_name} onChange={this.handleNameChange} />
+                        Name:<input type="text" name="name" value={this.state.asset.asset_name} onChange={this.handleNameChange} />
                     </label>
                     <label>
-                        Value: <input type="number" name="value" value={this.state.asset_value} onChange={this.handleValueChange} /> €
+                        Value: <input type="number" name="value" value={this.state.asset.asset_value} onChange={this.handleValueChange} /> €
                     </label>
                     <input type="submit" value="Save" />
                 </form>
@@ -35,28 +33,37 @@ export default class SimpleAsset extends Component {
         else
             return (
                 <div>
-                    <p>{this.state.asset_name}: {this.state.asset_value} €
+                    <p>{this.state.asset.asset_name}:{this.state.asset.asset_value} €
                         <button onClick={this.handleEdit}>edit</button>
-                        <button onClick={this.state.asset_delete_function} id={this.state.asset_id}>sell or dispose</button>
+                        <button onClick={this.state.delete_function} id={this.state.asset._id}>sell or dispose</button>
                     </p>
                 </div>
             )
     }
 
     handleNameChange(event) {
-        this.setState({ asset_name: event.target.value });
+        this.setState({
+            asset: {
+                asset_name: event.target.value,
+                asset_value: this.state.asset.asset_value
+            }
+        });
     }
 
     handleValueChange(event) {
-        this.setState({ asset_value: event.target.value });
+        this.setState({
+            asset: {
+                asset_name: this.state.asset.asset_name,
+                asset_value: event.target.value
+            }
+        });
     }
 
     handleSubmit(event) {
-        this.setState({asset_edit_mode:false});
+        this.setState({ asset_edit_mode: false });
         event.preventDefault();
     }
     handleEdit() {
         this.setState({ asset_edit_mode: true });
-
     }
 }
