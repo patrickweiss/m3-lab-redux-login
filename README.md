@@ -24,7 +24,7 @@ To run the webserver for the react client:
 - within this directroy run: npm start
 
 Now a browser window should open automatically and show the application in the browser.
-If it doesn't work automatically then open a browser and enter the URL: localhost:3000
+If it doesn't work automatically, then open a browser and enter the URL: localhost:3000
 
 You should see the frontpage with the title of the application and one example asset should already be created, shown and stored in the database.
 

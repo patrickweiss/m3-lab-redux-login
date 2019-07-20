@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
+//this file defines the React component that renders a single asset to the browser window
+//it also contains the logic to change asset properties and save the changes to the database
+//most of the used React framework features are already explained in the comments of App.js
+//so this code hopefully mostly explains itself ...
+
 export default class SimpleAsset extends Component {
 
     constructor(props) {
@@ -11,6 +16,8 @@ export default class SimpleAsset extends Component {
         this.handleValueChange = this.handleValueChange.bind(this);
         this.handleSave = this.handleSave.bind(this);
 
+        //one new thing is, that the state will be initialized by properties that are set when the component is created in the container element:
+        //look for "<SimpleAsset key={newAsset._id} onDelete={this.handleDeleteAsset} edit={true} asset={newAsset} />" in App.js
         this.state = {
             delete_function: props.onDelete,
             edit_mode: props.edit,
@@ -19,6 +26,9 @@ export default class SimpleAsset extends Component {
     }
 
     render() {
+        
+        //if the component is in edit mode, it will render different than if it just shows the data
+        
         if (this.state.edit_mode)
             return (
                 <tr>
@@ -61,15 +71,8 @@ export default class SimpleAsset extends Component {
     }
 
     handleSave(event) {
-        console.log("event" + event);
-        console.log(event);
-        console.log("event.target" + event.target);
-        console.log(event.target);
-        console.log("event.target.id");
-        console.log(event.target.id);
         const IdOfAssetToDelete = event.target.id;
-        console.log("update asset with _id:" + IdOfAssetToDelete);
-
+  
         axios.post('http://localhost:8080/assets/update/' + IdOfAssetToDelete, this.state.asset)
             .then(res => console.log(res.data));
 
