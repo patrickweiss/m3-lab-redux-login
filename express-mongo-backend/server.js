@@ -49,7 +49,7 @@ assetRoutes.route('/').get(function (req, res) {
 //C: creat a new asset
 
 assetRoutes.route('/add').post(function (req, res) {
-    console.log("Reqest to save this asset:" + JSON.stringify(req.body));
+    console.log("Request to save this asset:" + JSON.stringify(req.body));
     let asset = new Asset(req.body);
     asset.save()
         .then(asset => {
