@@ -24,6 +24,7 @@ To run the express webserver with the rest api to connect the browser client to 
 
 To run the webserver for the react client:
 - open a new terminal and go into the directory /mern-asset-management/react-frontend
+- run: npm install
 - within this directroy run: npm start
 
 Now a browser window should open automatically and show the application in the browser.
