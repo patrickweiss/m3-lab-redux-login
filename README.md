@@ -13,7 +13,8 @@ U:Update (change) the data and store it again in the database
 D:Delete some data from the database
 
 To run the application first you need to start the mongo db database:
-- open a terminal and run: mongod
+- open a terminal and run:
+- sudo service mongod start
 
 To run the express webserver with the rest api to connect the browser client to the database start express:
 - open a new terminal and go into the directory /mern-asset-management/express-mongo-backend
