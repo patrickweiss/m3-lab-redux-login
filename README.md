@@ -18,8 +18,8 @@ To run the application first you need to start the mongo db database:
 To run the express webserver with the rest api to connect the browser client to the database start express:
 - open a new terminal and go into the directory /mern-asset-management/express-mongo-backend
 - within this directory run:
--- npm install
--- nodemon server
+- npm install
+- nodemon server
 
 To run the webserver for the react client:
 - open a new terminal and go into the directory /mern-asset-management/react-frontend
