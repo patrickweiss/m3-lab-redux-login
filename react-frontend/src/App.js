@@ -63,7 +63,7 @@ export default class App extends Component {
       this.setState({
         //we will not just put the asset data in the state, but create React components that can render the data and put them in the state
         //to see how a "SimpleAsset" renders and works, look into the file /react-frontend/components/SimpleAsset.js
-        assets: response.data.map(asset => <SimpleAsset key={asset._id} onDelete={this.handleDeleteAsset} asset={asset} />)
+        assets: response.data
       });
     }).catch(function (error) { console.log(error); })
   }
@@ -87,7 +87,7 @@ export default class App extends Component {
           <tbody>
             <tr><th>description</th><th>value</th><th>action</th></tr>
             {/*if the JavaScript code returns an array of React components, then the generated code will loop through the array and render all components in the array*/}
-            {this.state.assets}
+            {this.state.assets.map(asset => <SimpleAsset key={asset._id} onDelete={this.handleDeleteAsset} asset={asset} />)}
           </tbody>
         </table>
       </div>
@@ -116,7 +116,7 @@ export default class App extends Component {
     let newAssets = this.state.assets.slice();
 
     //now we can add the new asset to the new array
-    newAssets.push(<SimpleAsset key={newAsset._id} onDelete={this.handleDeleteAsset} edit={true} asset={newAsset} />);
+    newAssets.push(newAsset);
 
     //we cannot just change the state, in order for react to know that we changed state and want rerendering, we need to call
     //the ".setState()" method. The method takes all properties of the state we want to change as arguments.
@@ -141,8 +141,8 @@ export default class App extends Component {
 
     //now we delete the asset in the UI and trigger an UI update by calling ".setState()"
     let newAssets = this.state.assets.filter(asset => {
-      console.log("asset.key:" + asset.key + " IdOfAssetToDelete:" + IdOfAssetToDelete + " " + (asset.key !== IdOfAssetToDelete));
-      return asset.key !== IdOfAssetToDelete;
+      console.log("asset._id:" + asset._id + " IdOfAssetToDelete:" + IdOfAssetToDelete + " " + (asset._id !== IdOfAssetToDelete));
+      return asset._id !== IdOfAssetToDelete;
     })
     this.setState(
       {
