@@ -1,9 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App, { IAssetData, IAssetAction } from './App';
+import App from './App';
 import * as serviceWorker from './serviceWorker';
-import mongoose from 'mongoose';
 
 //import framework components
 //CS: ClientServices, we will use them a lot, so to shorten the code they are just called: CS
@@ -11,7 +10,6 @@ import { CS } from './framework/CS';
 //we will add a CS instance to the window object.
 //We also want the window object strictly typed, so we declare that window has the type "IWindow"
 import { IWindow } from './framework/IWindow'
-import { ActionType } from './framework/IAction';
 declare let window: IWindow;
 window.CS = new CS();
 //we create the inital Application State

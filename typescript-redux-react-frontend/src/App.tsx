@@ -23,6 +23,11 @@ export interface IAssetAction extends IAction {
   asset: IAssetData
 }
 
+export interface IAssetsLoadedAction extends IAction {
+  assets: IAssetData[]
+}
+
+
 export default class App extends React.PureComponent<IProps, IState> {
 
   constructor(props: any) {
@@ -32,8 +37,21 @@ export default class App extends React.PureComponent<IProps, IState> {
     this.handleCreateAsset = this.handleCreateAsset.bind(this);
   }
 
-  componentDidMount(){
-    window.CS.clientAction(assetsReadActionCreator())
+  componentDidMount() {
+    const uiAction: IAction = {
+      type: ActionType.server_called
+    }
+    window.CS.clientAction(uiAction);
+    axios.get('http://localhost:8080/assets/read').then(response => {
+      console.log("this data was loaded as a result of componentDidMount:");
+      console.log(response.data);
+      const responseAction: IAssetsLoadedAction = {
+        type: ActionType.add_assets_from_server,
+        assets: response.data as IAssetData[]
+      }
+      window.CS.clientAction(responseAction);
+    }).catch(function (error) { console.log(error); })
+
   }
 
   render() {
@@ -70,24 +88,3 @@ export default class App extends React.PureComponent<IProps, IState> {
   }
 }
 
-export interface IAssetsLoadedAction extends IAction{
-  assets:IAssetData[]
-}
-
-function assetsReadActionCreator(){
-  return function (dispatch:any){
-    const uiAction: IAction = {
-      type:ActionType.server_called
-    }
-    dispatch(uiAction);
-    axios.get('http://localhost:8080/assets/').then(response => {
-      console.log("this data was loaded as a result of componentDidMount:");
-      console.log(response.data);
-      const responseAction: IAssetsLoadedAction={
-        type:ActionType.add_assets_from_server,
-        assets:response.data as IAssetData[]
-      }
-      dispatch(responseAction);
-    }).catch(function (error) { console.log(error); })
-  }
-}
