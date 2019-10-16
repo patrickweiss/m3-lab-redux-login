@@ -2,9 +2,15 @@ import React from 'react';
 import SimpleAsset from './components/SimpleAsset'
 import mongoose from 'mongoose';
 import axios from 'axios';
+import NavBar from './components/NavBar';
+import Home from './components/Home';
+import About from './components/About';
+import More from './components/More';
 
 import { IAction, ActionType } from './framework/IAction';
 import { IWindow } from './framework/IWindow'
+import { Switch, Route } from 'react-router-dom';
+import { compose } from 'redux';
 declare let window: IWindow;
 
 interface IProps {
@@ -57,19 +63,27 @@ export default class App extends React.PureComponent<IProps, IState> {
   render() {
     window.CS.log("App --> render()")
     return (
+      <>
+      <NavBar />
+      <Switch>
+        <Route path="/about" component={About} />
+        <Route path="/more" component={More} />
+        <Route path="/" component={Home} />
+      </Switch>
       <div>
-        <p> {window.CS.getUIState().waitingForResponse.toString()}{window.CS.getUIState().counter}</p>
-        <h1>simple asset management application</h1>
-        <p>to create a new asset click this button:&nbsp;
-          <button onClick={this.handleCreateAsset}>create asset</button>
-        </p>
-        <table>
-          <tbody>
-            <tr><th>description</th><th>value</th><th>action</th></tr>
-            {window.CS.getBMState().assets.map(asset => <SimpleAsset key={asset._id} asset={asset} edit={false} />)}
-          </tbody>
-        </table>
-      </div>
+          <p> {window.CS.getUIState().waitingForResponse.toString()}{window.CS.getUIState().counter}</p>
+          <h1>simple asset management application</h1>
+          <p>to create a new asset click this button:&nbsp;
+            <button onClick={this.handleCreateAsset}>create asset</button>
+          </p>
+          <table>
+            <tbody>
+              <tr><th>description</th><th>value</th><th>action</th></tr>
+              {window.CS.getBMState().assets.map(asset => <SimpleAsset key={asset._id} asset={asset} edit={false} />)}
+            </tbody>
+          </table>
+        </div>
+      </>
     );
   }
 

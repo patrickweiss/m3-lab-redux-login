@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import { BrowserRouter as Router } from 'react-router-dom';
 
 //import framework components
 //CS: ClientServices, we will use them a lot, so to shorten the code they are just called: CS
@@ -16,7 +17,11 @@ window.CS = new CS();
 window.CS.initializeStore();
 
 //now we can render this state to the DOM using React
-ReactDOM.render(<App stateCounter={window.CS.getUIState().counter} />, document.getElementById('root'));
+ReactDOM.render(
+  <Router >
+  <App stateCounter={window.CS.getUIState().counter} />
+  </Router>
+, document.getElementById('root'));
 
 
 //whenever there is a new state, we render the whole virtual DOM again
@@ -24,7 +29,9 @@ ReactDOM.render(<App stateCounter={window.CS.getUIState().counter} />, document.
 //the current virtual DOM will be rendered to the browser DOM
 window.CS.getStore().subscribe(() => {
   window.CS.log("3. before render ---------------------------------------------");
-  ReactDOM.render(<App stateCounter={window.CS.getUIState().counter} />, document.getElementById('root'));
+  ReactDOM.render(<Router >
+                  <App stateCounter={window.CS.getUIState().counter} />
+                  </Router>, document.getElementById('root'));
   window.CS.log("3. after render ---------------------------------------------");
 });
 
