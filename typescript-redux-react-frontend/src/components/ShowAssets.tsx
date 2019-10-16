@@ -1,45 +1,24 @@
 import React, { Component } from 'react'
-import axios from 'axios';
 
 import SimpleAsset from './SimpleAsset'
 import mongoose from 'mongoose';
 import { IAction, ActionType } from '../framework/IAction';
+import {IAssetData} from '../state/appState'
+
 import { IWindow } from '../framework/IWindow'
 declare let window: IWindow;
 
 
-export interface IAssetData {
-  _id: string;
-  asset_name: string;
-  asset_value: number;
-}
+
 interface IState { }
 export interface IAssetAction extends IAction {
   asset: IAssetData
-}
-export interface IAssetsLoadedAction extends IAction {
-  assets: IAssetData[]
 }
 export default class ShowAssets extends Component {
     constructor(props: any) {
         console.log("new App component will be initialized");
         super(props);
         this.handleCreateAsset = this.handleCreateAsset.bind(this);
-      }
-      componentDidMount() {
-        const uiAction: IAction = {
-          type: ActionType.server_called
-        }
-        window.CS.clientAction(uiAction);
-        axios.get('http://localhost:8080/assets/read').then(response => {
-          console.log("this data was loaded as a result of componentDidMount:");
-          console.log(response.data);
-          const responseAction: IAssetsLoadedAction = {
-            type: ActionType.add_assets_from_server,
-            assets: response.data as IAssetData[]
-          }
-          window.CS.clientAction(responseAction);
-        }).catch(function (error) { console.log(error); })
       }
     render() {
         return (

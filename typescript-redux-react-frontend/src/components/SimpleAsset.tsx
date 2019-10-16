@@ -1,8 +1,10 @@
 import React from 'react';
-import { IAssetData, IAssetAction } from './ShowAssets';
+import { IAssetAction } from './ShowAssets';
 import { ActionType, IAction } from '../framework/IAction';
+import { IAssetData, IState } from '../state/appState'
 
 import { IWindow } from '../framework/IWindow';
+import { reducerFunctions } from '../reducer/appReducer';
 declare let window: IWindow;
 
 //this file defines the React component that renders a single asset to the browser window
@@ -15,12 +17,29 @@ interface IProps {
     asset: IAssetData;
 }
 
-interface IState {
+interface IJSXState {
     edit_mode: boolean;
 }
 
+reducerFunctions[ActionType.create_asset] = function (newState: IState, action: IAssetAction) {
+    newState.BM.assets.push(action.asset);
+    return newState;
+}
+reducerFunctions[ActionType.update_asset] = function (newState: IState, updateAction: IAssetAction) {
+    let assetToChange: IAssetData[] = newState.BM.assets.filter(asset => asset._id === updateAction.asset._id)
+    console.log(assetToChange);
+    assetToChange[0].asset_name = updateAction.asset.asset_name;
+    assetToChange[0].asset_value = updateAction.asset.asset_value;
+    return newState;
+}
+reducerFunctions[ActionType.delete_asset] = function (newState: IState, deleteAction: IAssetAction) {
+    let assetsToKeep: IAssetData[] = newState.BM.assets.filter(asset => asset._id !== deleteAction.asset._id)
+    newState.BM.assets = assetsToKeep;
+    return newState;
+}
 
-export default class SimpleAsset extends React.PureComponent<IProps, IState> {
+
+export default class SimpleAsset extends React.PureComponent<IProps, IJSXState> {
 
     constructor(props: IProps) {
         super(props);
@@ -72,7 +91,7 @@ export default class SimpleAsset extends React.PureComponent<IProps, IState> {
 
     handleNameChange(event: any) {
         const newAsset = this.props.asset;
-        newAsset.asset_name =  event.target.value
+        newAsset.asset_name = event.target.value
         const action: IAssetAction = {
             type: ActionType.update_asset,
             asset: newAsset
@@ -89,14 +108,14 @@ export default class SimpleAsset extends React.PureComponent<IProps, IState> {
         window.CS.clientAction(action);
     }
 
-    
+
     handleSave(event: any) {
         this.setState({ edit_mode: false });
     }
     handleDelete() {
         const action: IAssetAction = {
             type: ActionType.delete_asset,
-            asset:this.props.asset
+            asset: this.props.asset
         }
         window.CS.clientAction(action)
     }

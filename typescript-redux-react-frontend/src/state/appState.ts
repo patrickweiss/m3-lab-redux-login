@@ -4,7 +4,7 @@ export interface IUI{
     waitingForResponse:boolean;
 }
 
-interface IAssetData {
+export interface IAssetData {
     _id: string;
     asset_name: string;
     asset_value: number;
