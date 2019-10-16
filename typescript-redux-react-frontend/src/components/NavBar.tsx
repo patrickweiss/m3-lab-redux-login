@@ -5,9 +5,9 @@ const nav = ( props: any ) => {
     return (
         <nav>
             <ul>
-                <li><NavLink to="/home">Home</NavLink></li>
-                <li><NavLink to="/about">About</NavLink></li>
-                <li><NavLink to="/more">More</NavLink></li>
+                <li><NavLink to="/">Login</NavLink></li>
+                <li><NavLink to="/register">Register</NavLink></li>
+                <li><NavLink to="/showassets">Assets</NavLink></li>
             </ul>
         </nav>
     )

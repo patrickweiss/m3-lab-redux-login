@@ -1,5 +1,5 @@
 import React from 'react';
-import { IAssetData, IAssetAction } from '../App';
+import { IAssetData, IAssetAction } from './ShowAssets';
 import { ActionType, IAction } from '../framework/IAction';
 
 import { IWindow } from '../framework/IWindow';

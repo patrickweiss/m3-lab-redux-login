@@ -1,7 +1,7 @@
 import { initial, IState } from '../state/appState'
 import { IWindow } from '../framework/IWindow'
 import { IAction, ActionType } from '../framework/IAction'
-import { IAssetData, IAssetAction, IAssetsLoadedAction } from '../App';
+import { IAssetData, IAssetAction, IAssetsLoadedAction } from '../components/ShowAssets';
 
 declare let window: IWindow;
 
