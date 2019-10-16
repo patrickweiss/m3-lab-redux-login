@@ -23,3 +23,26 @@ table, th, td {
 th{
   width:250px;
 }
+
+nav {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  min-height: 10vh;
+  background-color: blue;
+}
+nav ul {
+  display: flex;
+  list-style: none;
+}
+ul li { 
+  margin-right: 50px;
+  font-size: 2rem;
+}
+li a {
+  color: white;
+  text-decoration: none;
+}
+li a.active {
+  font-size: 1.1em;
+}
