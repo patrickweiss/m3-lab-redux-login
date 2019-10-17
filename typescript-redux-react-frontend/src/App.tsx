@@ -54,7 +54,7 @@ export default class App extends React.PureComponent<IProps> {
         <Switch>
           <Route path="/showassets" component={ShowAssets} />
           <Route path="/register" component={Register} />
-          <Route exact={true} path="/" component={Login} />
+          <Route path="/" component={Login} />
         </Switch>
 
       </>
