@@ -2,6 +2,7 @@ import React from 'react';
 import { IAssetAction } from './ShowAssets';
 import { ActionType, IAction } from '../framework/IAction';
 import { IAssetData, IState } from '../state/appState'
+import axios from 'axios';
 
 import { IWindow } from '../framework/IWindow';
 import { reducerFunctions } from '../reducer/appReducer';
@@ -21,10 +22,7 @@ interface IJSXState {
     edit_mode: boolean;
 }
 
-reducerFunctions[ActionType.create_asset] = function (newState: IState, action: IAssetAction) {
-    newState.BM.assets.push(action.asset);
-    return newState;
-}
+
 reducerFunctions[ActionType.update_asset] = function (newState: IState, updateAction: IAssetAction) {
     let assetToChange: IAssetData[] = newState.BM.assets.filter(asset => asset._id === updateAction.asset._id)
     console.log(assetToChange);
@@ -35,6 +33,7 @@ reducerFunctions[ActionType.update_asset] = function (newState: IState, updateAc
 reducerFunctions[ActionType.delete_asset] = function (newState: IState, deleteAction: IAssetAction) {
     let assetsToKeep: IAssetData[] = newState.BM.assets.filter(asset => asset._id !== deleteAction.asset._id)
     newState.BM.assets = assetsToKeep;
+    newState.UI.waitingForResponse=false;
     return newState;
 }
 
@@ -113,11 +112,18 @@ export default class SimpleAsset extends React.PureComponent<IProps, IJSXState> 
         this.setState({ edit_mode: false });
     }
     handleDelete() {
+        const uiAction: IAction = {
+            type: ActionType.server_called
+        }
+        window.CS.clientAction(uiAction);
         const action: IAssetAction = {
             type: ActionType.delete_asset,
             asset: this.props.asset
         }
-        window.CS.clientAction(action)
+        axios.get('http://localhost:8080/assets/delete/' + this.props.asset._id)
+            .then(res => {
+                window.CS.clientAction(action);
+            });
     }
     handleRerenderTest(event: any) {
         const action: IAction = {

@@ -45,4 +45,7 @@ export class CS {
    public clientAction(action:IAction | Function){
     this.store.dispatch(action);
     }
+    public getDBServerURL(){
+        return "http://localhost:8080";
+    }
 }

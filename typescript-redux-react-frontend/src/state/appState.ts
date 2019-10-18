@@ -10,7 +10,15 @@ export interface IAssetData {
     asset_value: number;
   }
 
+export interface IUser {
+    firstname:string;
+    lastname:string;
+    username:string;
+    password:string;
+}  
+
 export interface IBM{
+    user: IUser;
     assets:IAssetData[]
 }
 
@@ -28,6 +36,12 @@ export const initial:IState = {
 		waitingForResponse: false,
 	},
 	BM: {
+        user: {
+            firstname:"",
+            lastname:"",
+            username:"",
+            password:""
+        },
         assets:[]
 	}
 };

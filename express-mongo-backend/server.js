@@ -33,6 +33,7 @@ connection.once('open', function () {
 //connect the rest endpoints to the express server
 
 app.use('/assets', require('./routes/asset.routes'));
+app.use('/', require('./routes/auth.routes'));
 
 //start the server and make it listen and answer to requests to the defined port
 

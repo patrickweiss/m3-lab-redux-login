@@ -3,17 +3,25 @@ import React, { Component } from 'react'
 import SimpleAsset from './SimpleAsset'
 import mongoose from 'mongoose';
 import { IAction, ActionType } from '../framework/IAction';
-import {IAssetData} from '../state/appState'
+import {IAssetData, IState} from '../state/appState'
+import { reducerFunctions } from '../reducer/appReducer';
+import axios from 'axios';
 
 import { IWindow } from '../framework/IWindow'
 declare let window: IWindow;
 
 
 
-interface IState { }
+
 export interface IAssetAction extends IAction {
   asset: IAssetData
 }
+reducerFunctions[ActionType.create_asset] = function (newState: IState, action: IAssetAction) {
+  newState.UI.waitingForResponse = false;
+  newState.BM.assets.push(action.asset);
+  return newState;
+}
+
 export default class ShowAssets extends Component {
     constructor(props: any) {
         console.log("new App component will be initialized");
@@ -39,6 +47,10 @@ export default class ShowAssets extends Component {
     }
     handleCreateAsset() {
         console.log("handleCreateAsset invoked");
+        const uiAction: IAction = {
+          type: ActionType.server_called
+        }
+        window.CS.clientAction(uiAction);
         const newAsset: IAssetData = {
           _id: mongoose.Types.ObjectId().toString(),
           asset_name: "",
@@ -48,6 +60,9 @@ export default class ShowAssets extends Component {
           type: ActionType.create_asset,
           asset: newAsset
         }
-        window.CS.clientAction(action);
+        axios.post('http://localhost:8080/assets/add', newAsset)
+        .then(res =>{
+          window.CS.clientAction(action);
+        });
       }
 }
